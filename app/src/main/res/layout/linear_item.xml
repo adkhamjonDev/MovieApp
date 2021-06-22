@@ -57,7 +57,7 @@
             android:textStyle="bold"
             android:textColor="#BABABA"
             android:layout_marginTop="3dp"
-            android:text="Год: 2021"
+            android:text=""
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
     </LinearLayout>
