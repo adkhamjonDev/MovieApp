@@ -10,7 +10,6 @@ import com.example.movieapp.databinding.GridImageBinding
 import com.example.movieapp.databinding.LinearItemBinding
 import com.example.movieapp.models.MovieClass
 import com.squareup.picasso.Picasso
-
 class RvAdapter(var gridLayoutManager: GridLayoutManager,var onItemClickListener: OnItemClickListener) :
     PagingDataAdapter<MovieClass, RecyclerView.ViewHolder>(MyDiffUtill()) {
     class MyDiffUtill : DiffUtil.ItemCallback<MovieClass>() {

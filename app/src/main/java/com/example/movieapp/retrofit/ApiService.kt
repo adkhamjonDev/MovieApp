@@ -27,10 +27,10 @@ interface ApiService {
         @Query("page") page: Int
     ): MainClass
     @GET("3/search/multi")
-     fun getSearchMovies(
+      fun getSearchMovies(
         @Query("api_key") api_key:String="44f66b1676556437f4731985995f2dea",
         @Query("language") category: String="en-US",
-        @Query("query") query: String
+        @Query("query") query: String,
     ): Call<MainClass>
     @GET("3/movie/{movie_id}")
      fun getMovieDetails(

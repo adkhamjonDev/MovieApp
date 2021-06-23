@@ -11,9 +11,9 @@ import com.example.movieapp.models.Images.Backdrop
 import com.example.movieapp.models.MovieClass
 import com.example.movieapp.models.Similar.Results
 import com.squareup.picasso.Picasso
-class SearchAdapter(var list: ArrayList<MovieClass>, var onItemClickListener: OnItemClickListener):
-    RecyclerView.Adapter<SearchAdapter.MyViewHolder>(), Filterable {
-    val list1=ArrayList<MovieClass>(list)
+class SearchAdapter(var list: List<MovieClass>, var onItemClickListener: OnItemClickListener):
+    RecyclerView.Adapter<SearchAdapter.MyViewHolder>() {
+
     inner class MyViewHolder(var linearItemBinding: LinearItemBinding): RecyclerView.ViewHolder(
         linearItemBinding.root){
     }
@@ -28,7 +28,7 @@ class SearchAdapter(var list: ArrayList<MovieClass>, var onItemClickListener: On
     }
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val obj=list[position]
-        holder.linearItemBinding.tittle.text=obj.title
+        holder.linearItemBinding.tittle.text=obj.original_title
         Picasso.get().load("https://image.tmdb.org/t/p/w500/${obj.poster_path}")
             .into(holder.linearItemBinding.icon)
         holder.itemView.setOnClickListener {
@@ -40,32 +40,5 @@ class SearchAdapter(var list: ArrayList<MovieClass>, var onItemClickListener: On
     }
     interface OnItemClickListener{
         fun onItemClick(id:Int)
-    }
-    override fun getFilter(): Filter {
-        return exampleFilter
-    }
-    private val exampleFilter: Filter = object : Filter() {
-        override fun performFiltering(constraint: CharSequence): FilterResults {
-            val newList = ArrayList<MovieClass>()
-            if (constraint == null || constraint.isEmpty()) {
-                newList.addAll(list1)
-            } else {
-                val filterPattern = constraint.toString().toLowerCase().trim()
-                for (i in 0 until list1.size) {
-                    if (list1[i].title.toLowerCase()!!.contains(filterPattern)) {
-                        newList.add(list1[i])
-                    }
-                }
-            }
-            val results = FilterResults()
-            results.values = newList
-            return results
-        }
-
-        override fun publishResults(constraint: CharSequence, results: FilterResults) {
-            list.clear()
-            list.addAll(results.values as ArrayList<MovieClass>)
-            notifyDataSetChanged()
-        }
     }
 }

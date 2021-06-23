@@ -85,7 +85,7 @@ class InfoFragment : Fragment(),PopupMenu.OnMenuItemClickListener  {
 
         val stringBuilder=StringBuilder()
         movieDetails!!.production_countries.forEach { item->
-            stringBuilder.append(item.name+", ")
+            stringBuilder.append(item.name+"\n")
         }
         var str=stringBuilder.toString()
         str=str.substring(0,str.length-2)
