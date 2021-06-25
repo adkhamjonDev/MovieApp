@@ -25,7 +25,7 @@ class RvAdapter(var gridLayoutManager: GridLayoutManager,var onItemClickListener
         @SuppressLint("SetTextI18n")
         fun onBind(movieClass: MovieClass) {
             linearItemBinding.tittle.text=movieClass.title
-            //linearItemBinding.date.text="Year: ${movieClass.release_date.substring(0,4)}"
+            linearItemBinding.date.text="Year: ${movieClass.release_date}"
             Picasso.get().load("https://image.tmdb.org/t/p/w500/${movieClass.poster_path}")
                 .into(linearItemBinding.icon)
         }
