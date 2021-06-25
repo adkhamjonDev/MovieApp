@@ -1,14 +1,20 @@
 package com.example.movieapp.fragments
 import android.app.Activity.RESULT_OK
 import android.content.Intent
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import android.speech.RecognizerIntent
 import android.text.Editable
 import android.text.TextWatcher
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.PopupMenu
+import androidx.annotation.RequiresApi
 import androidx.core.os.bundleOf
 import androidx.navigation.fragment.findNavController
 import com.example.movieapp.R
@@ -22,18 +28,16 @@ import com.example.movieapp.retrofit.ApiService
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-class SearchFragment : Fragment() {
+class SearchFragment : Fragment(),PopupMenu.OnMenuItemClickListener {
     private lateinit var binding: FragmentSearchBinding
     private lateinit var apiService: ApiService
     private lateinit var searchAdapter: SearchAdapter
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding=FragmentSearchBinding.inflate(inflater, container, false)
         apiService=ApiClient.getRetrofit().create(ApiService::class.java)
-
         binding.edit.addTextChangedListener(object:TextWatcher{
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
 
@@ -72,8 +76,12 @@ class SearchFragment : Fragment() {
         binding.back.setOnClickListener {
             findNavController().popBackStack()
         }
-
-
+        binding.more.setOnClickListener {
+            val popup = PopupMenu(context,it)
+            popup.setOnMenuItemClickListener(this)
+            popup.inflate(R.menu.menu_popup)
+            popup.show()
+        }
         return binding.root
     }
     private fun getDetails(id:Int){
@@ -91,7 +99,6 @@ class SearchFragment : Fragment() {
             }
         })
     }
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, result: Intent?) {
         if(requestCode==1 && resultCode==RESULT_OK){
             val stringArrayListExtra = result?.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS) as ArrayList<String>
@@ -99,5 +106,21 @@ class SearchFragment : Fragment() {
         }
         super.onActivityResult(requestCode, resultCode, result)
 
+    }
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+    override fun onMenuItemClick(item: MenuItem?): Boolean {
+        when(item?.itemId){
+            R.id.appInfo->{
+                val i = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+                i.addCategory(Intent.CATEGORY_DEFAULT)
+                i.data = Uri.parse("package:com.example.movieapp")
+                startActivity(i)
+                true
+            }
+            else->{
+                return false
+            }
+        }
+        return false
     }
 }

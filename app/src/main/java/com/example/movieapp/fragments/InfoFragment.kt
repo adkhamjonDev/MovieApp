@@ -1,7 +1,10 @@
 package com.example.movieapp.fragments
 import android.annotation.SuppressLint
+import android.content.Intent
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
@@ -28,8 +31,6 @@ import com.squareup.picasso.Picasso
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-
-
 class InfoFragment : Fragment(),PopupMenu.OnMenuItemClickListener  {
     private lateinit var binding: FragmentInfoBinding
     private  var movieDetails: MovieDetails?=null
@@ -64,8 +65,12 @@ class InfoFragment : Fragment(),PopupMenu.OnMenuItemClickListener  {
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onMenuItemClick(item: MenuItem?): Boolean {
         when(item?.itemId){
-            R.id.share->{
-
+            R.id.appInfo->{
+                val i = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+                i.addCategory(Intent.CATEGORY_DEFAULT)
+                i.data = Uri.parse("package:com.example.movieapp")
+                startActivity(i)
+                true
             }
             else->{
             return false
